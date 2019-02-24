@@ -1,9 +1,8 @@
 package org.codepenguin.spring.boot.crud.example.model.services;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import org.codepenguin.spring.boot.crud.example.model.entities.Author;
-import org.codepenguin.spring.boot.crud.example.model.entities.Country;
 import org.codepenguin.spring.boot.crud.example.model.repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,27 +10,39 @@ import org.springframework.stereotype.Service;
 /**
  *
  * @author juandiegoespinosasantos@gmail.com
+ * @author Jorge Alfonso Garcia Espinosa
+ * @since 1.8
  * @version 02/24/2019
  */
 @Service
-public class AuthorService {
+public class AuthorService implements CrudService<Author, Long> {
 
     @Autowired
     private AuthorRepository repository;
 
+    @Override
+    public Author create(Author entity) {
+        return repository.save(entity);
+    }
+
+    @Override
+    public Optional<Author> find(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public List<Author> findAll() {
-        return getMockList();
+        return repository.findAll();
     }
 
-    private List<Author> getMockList() {
-        List<Author> authors = new LinkedList<>();
-        authors.add(Author.builder().id(1L).firstName("Gabriel").lastName("García Márquez")
-                .country(new Country("CO", "COL", "Colombia")).build());
-        authors.add(Author.builder().id(2L).firstName("Carl").lastName("Sagan")
-                .country(new Country("US", "USA", "Estados Unidos")).build());
-        authors.add(Author.builder().id(3L).firstName("Arthur Conan").lastName("Dolye")
-                .country(new Country("UK", "UKI", "Reino Unido")).build());
-
-        return authors;
+    @Override
+    public Author update(Author entity) {
+        return repository.saveAndFlush(entity);
     }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
 }

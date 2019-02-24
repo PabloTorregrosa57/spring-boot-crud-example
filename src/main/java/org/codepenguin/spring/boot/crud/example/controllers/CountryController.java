@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CountryController {
 
-    @Value("${application.controllers.countries.title}")
+    @Value("${crud.example.controllers.countries.title}")
     private String title;
 
     @Autowired

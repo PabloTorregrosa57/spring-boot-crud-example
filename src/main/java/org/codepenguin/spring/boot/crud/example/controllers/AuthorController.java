@@ -21,7 +21,7 @@ public class AuthorController {
     @Autowired
     private AuthorService service;
 
-    @Value("${application.controllers.authors.title}")
+    @Value("${crud.example.controllers.authors.title}")
     private String title;
 
     @RequestMapping(method = RequestMethod.GET, value = "/authors")

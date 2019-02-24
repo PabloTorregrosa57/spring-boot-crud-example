@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PublishingHouseController {
 
-    @Value("${application.controllers.publishinghouses.title}")
+    @Value("${crud.example.controllers.publishinghouses.title}")
     private String title;
 
     @Autowired

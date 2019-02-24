@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LiteraryGenreController {
 
-    @Value("${application.controllers.literarygenres.title}")
+    @Value("${crud.example.controllers.literarygenres.title}")
     private String title;
 
     @Autowired

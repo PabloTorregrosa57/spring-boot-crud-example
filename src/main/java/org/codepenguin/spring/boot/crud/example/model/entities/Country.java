@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -20,7 +22,8 @@ import lombok.Data;
 @Entity
 @Table(name = "country", catalog = "bookstore", schema = "public")
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @SuppressWarnings("PersistenceUnitPresent")
 public class Country implements Serializable {
 
@@ -44,5 +47,4 @@ public class Country implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "name")
     private String name;
-
 }

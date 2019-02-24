@@ -2,7 +2,7 @@ package org.codepenguin.spring.boot.crud.example.controllers;
 
 import java.util.List;
 import org.codepenguin.spring.boot.crud.example.model.entities.Country;
-import org.codepenguin.spring.boot.crud.example.service.CountryService;
+import org.codepenguin.spring.boot.crud.example.model.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +21,10 @@ public class CountryController {
 
     @GetMapping("/countries")
     public String list(Model model) {
-        List<Country> countries = service.findAll();
-        
+        final List<Country> countries = service.findAll();
+
         model.addAttribute("countries", countries);
-        
+
         return "/countries";
     }
 }

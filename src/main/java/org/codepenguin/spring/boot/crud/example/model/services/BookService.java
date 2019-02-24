@@ -1,4 +1,4 @@
-package org.codepenguin.spring.boot.crud.example.service;
+package org.codepenguin.spring.boot.crud.example.model.services;
 
 import org.springframework.stereotype.Service;
 
@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
  * @version 02/24/2019
  */
 @Service
-public class AuthorService {
-
+public class BookService {
+    
 }

@@ -1,4 +1,4 @@
-package org.codepenguin.spring.boot.crud.example.model.dao;
+package org.codepenguin.spring.boot.crud.example.model.repositories;
 
 import org.codepenguin.spring.boot.crud.example.model.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;

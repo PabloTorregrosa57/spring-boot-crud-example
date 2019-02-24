@@ -1,9 +1,13 @@
 package org.codepenguin.spring.boot.crud.example.controllers;
 
+import java.util.List;
+import org.codepenguin.spring.boot.crud.example.model.entities.LiteraryGenre;
+import org.codepenguin.spring.boot.crud.example.model.services.LiteraryGenreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
@@ -13,11 +17,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LiteraryGenreController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/literary-genres")
+    @Value("${application.controllers.literarygenres.title}")
+    private String title;
+
+    @Autowired
+    private LiteraryGenreService service;
+
+    @GetMapping("literary-genres")
     public String list(Model model) {
+        List<LiteraryGenre> genres = service.findAll();
+        
+        model.addAttribute("title", title);
+        model.addAttribute("genres", genres);
 
-        model.addAttribute("literary-genres");
-
-        return "/literary-genres";
+        return "literary-genres";
     }
 }

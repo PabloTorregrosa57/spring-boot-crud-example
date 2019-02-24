@@ -10,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -21,6 +23,8 @@ import lombok.Data;
 @Entity
 @Table(name = "literary_genre", catalog = "bookstore", schema = "public")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SuppressWarnings("PersistenceUnitPresent")
 public class LiteraryGenre implements Serializable {
 

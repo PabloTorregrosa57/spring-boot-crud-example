@@ -1,9 +1,13 @@
 package org.codepenguin.spring.boot.crud.example.controllers;
 
+import java.util.List;
+import org.codepenguin.spring.boot.crud.example.model.entities.PublishingHouse;
+import org.codepenguin.spring.boot.crud.example.model.services.PublishingHouseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
@@ -13,11 +17,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PublishingHouseController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/publishing-houses")
+    @Value("${application.controllers.publishinghouses.title}")
+    private String title;
+
+    @Autowired
+    private PublishingHouseService service;
+
+    @GetMapping("/publishing-houses")
     public String list(Model model) {
+        final List<PublishingHouse> list = service.findAll();
 
-        model.addAttribute("publishing-houses");
+        model.addAttribute("title", title);
+        model.addAttribute("list", list);
 
-        return "/publishing-houses";
+        return "publishing-houses";
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.codepenguin.spring.boot.crud.example.model.entities;
 
 import java.io.Serializable;
@@ -18,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -29,6 +25,7 @@ import lombok.Data;
 @Entity
 @Table(name = "author", catalog = "bookstore", schema = "public")
 @Data
+@Builder
 @SuppressWarnings("PersistenceUnitPresent")
 public class Author implements Serializable {
 
@@ -55,5 +52,9 @@ public class Author implements Serializable {
     @JoinColumn(name = "country", referencedColumnName = "code")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Country country;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 
 }

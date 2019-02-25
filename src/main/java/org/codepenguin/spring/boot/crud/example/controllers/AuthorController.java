@@ -30,8 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -39,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @version 02/24/2019
  */
 @Controller
-public class AuthorController {
+public class AuthorController implements CrudController<Author, Long> {
 
     @Autowired
     private AuthorService service;
@@ -47,13 +48,39 @@ public class AuthorController {
     @Value("${crud.example.controllers.authors.title}")
     private String title;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/authors")
-    public String list(Model model) {
+    @Override
+    @GetMapping
+    public String displayEntityList(Model model) {
         final List<Author> authors = service.findAll();
 
         model.addAttribute("title", title);
         model.addAttribute("authors", authors);
 
-        return "/authors";
+        return "authors/authors";
+    }
+
+    @Override
+    public String displayCreateForm(Model model) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String displayUpdateForm(Long id, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processCreate(Author entity, BindingResult result, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processUpdate(Author entity, BindingResult result, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processDelete(Long id, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

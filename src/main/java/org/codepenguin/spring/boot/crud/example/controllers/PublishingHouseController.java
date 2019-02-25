@@ -30,7 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @version 02/24/2019
  */
 @Controller
-public class PublishingHouseController {
+public class PublishingHouseController implements CrudController<PublishingHouse, Long> {
 
     @Value("${crud.example.controllers.publishinghouses.title}")
     private String title;
@@ -46,13 +48,38 @@ public class PublishingHouseController {
     @Autowired
     private PublishingHouseService service;
 
-    @GetMapping("/publishing-houses")
-    public String list(Model model) {
+    @Override
+    public String displayEntityList(Model model) {
         final List<PublishingHouse> list = service.findAll();
 
         model.addAttribute("title", title);
         model.addAttribute("list", list);
 
-        return "publishing-houses";
+        return "publishing-houses/publishing-houses";
+    }
+
+    @Override
+    public String displayCreateForm(Model model) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String displayUpdateForm(Long id, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processCreate(PublishingHouse entity, BindingResult result, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processUpdate(PublishingHouse entity, BindingResult result, Model model, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String processDelete(Long id, RedirectAttributes flash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

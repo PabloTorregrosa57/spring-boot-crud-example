@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -40,6 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @version 02/24/2019
  */
 @Controller
+@RequestMapping("/publishing-houses")
 public class PublishingHouseController implements CrudController<PublishingHouse, Long> {
 
     @Value("${crud.example.controllers.publishinghouses.title}")
@@ -49,6 +51,7 @@ public class PublishingHouseController implements CrudController<PublishingHouse
     private PublishingHouseService service;
 
     @Override
+    @GetMapping
     public String displayEntityList(Model model) {
         final List<PublishingHouse> list = service.findAll();
 

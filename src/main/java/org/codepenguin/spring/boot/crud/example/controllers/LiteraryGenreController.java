@@ -24,7 +24,6 @@
 package org.codepenguin.spring.boot.crud.example.controllers;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.codepenguin.spring.boot.crud.example.model.entities.LiteraryGenre;
@@ -37,6 +36,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -45,7 +45,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @version 02/24/2019
  */
 @Controller
-public class LiteraryGenreController {
+@RequestMapping("/literary-genres")
+public class LiteraryGenreController implements CrudController<LiteraryGenre, Long> {
 
     @Value("${crud.example.controllers.literarygenres.title}")
     private String title;
@@ -53,45 +54,31 @@ public class LiteraryGenreController {
     @Autowired
     private LiteraryGenreService service;
 
-    @GetMapping("/literary-genres")
-    public String list(Model model) {
-        List<LiteraryGenre> genres = service.findAll();
+    @Override
+    @GetMapping
+    public String displayEntityList(Model model) {
+        final List<LiteraryGenre> genres = service.findAll();
 
         model.addAttribute("title", title);
         model.addAttribute("genres", genres);
 
-        return "literary-genres";
+        return "literary-genres/literary-genres";
     }
 
-    @GetMapping("/literary-genres/create")
-    public String create(Map<String, Object> model) {
-        model.put("title", "Create Literary Genre");
-        model.put("action", "create");
-        model.put("literaryGenre", new LiteraryGenre());
+    @Override
+    @GetMapping("/create")
+    public String displayCreateForm(Model model) {
+        model.addAttribute("title", "Create Literary Genre");
+        model.addAttribute("action", "create");
+        model.addAttribute("literaryGenre", new LiteraryGenre());
 
-        return "/literary-genres-form";
+        return "literary-genres/literary-genres-form";
     }
 
-    @PostMapping("/literary-genres/create")
-    public String create(@Valid LiteraryGenre genre, BindingResult result, Map<String, Object> model, RedirectAttributes flash) {
-        if (result.hasErrors()) {
-            model.put("title", "Create Literary Genre");
-            model.put("action", "create");
-
-            return "/literary-genres-form";
-        }
-
-        service.create(genre);
-
-        flash.addFlashAttribute("success", "Literary Genre [" + genre.getId() + "] " + genre.getName()
-                + " has been created successfully!");
-
-        return "redirect:/literary-genres";
-    }
-
-    @GetMapping("/literary-genres/update/{id}")
-    public String edit(@PathVariable("id") Long id, Map<String, Object> model, RedirectAttributes flash) {
-        Optional<LiteraryGenre> genreOpt = service.find(id);
+    @Override
+    @GetMapping("/update/{id}")
+    public String displayUpdateForm(@PathVariable("id") Long id, Model model, RedirectAttributes flash) {
+        final Optional<LiteraryGenre> genreOpt = service.find(id);
 
         if (!genreOpt.isPresent()) {
             flash.addFlashAttribute("error", "Literary genre " + id + " not found!");
@@ -99,43 +86,65 @@ public class LiteraryGenreController {
             return "redirect:/literary-genres";
         }
 
-        model.put("title", "Create Literary Genre");
-        model.put("action", "update");
-        model.put("literaryGenre", genreOpt.get());
+        model.addAttribute("title", "Create Literary Genre");
+        model.addAttribute("action", "update");
+        model.addAttribute("literaryGenre", genreOpt.get());
 
-        return "/literary-genres-form";
+        return "literary-genres/literary-genres-form";
     }
 
-    @PostMapping("/literary-genres/update")
-    public String edit(@Valid LiteraryGenre genre, BindingResult result, Map<String, Object> model, RedirectAttributes flash) {
+    @Override
+    @PostMapping("/create")
+    public String processCreate(@Valid LiteraryGenre entity, BindingResult result, Model model, RedirectAttributes flash) {
         if (result.hasErrors()) {
-            model.put("title", "Literary Genre Form");
-            model.put("action", "update");
+            model.addAttribute("title", "Create Literary Genre");
+            model.addAttribute("action", "create");
 
-            return "/literary-genres-form";
+            return "literary-genres/literary-genres-form";
         }
 
-        service.update(genre);
+        service.create(entity);
 
-        flash.addFlashAttribute("success", "Literary Genre [" + genre.getId() + "] " + genre.getName()
+        flash.addFlashAttribute("success", "Literary Genre [" + entity.getId() + "] " + entity.getName()
+                + " has been created successfully!");
+
+        return "redirect:/literary-genres";
+    }
+
+    @Override
+    @PostMapping("/update")
+    public String processUpdate(@Valid LiteraryGenre entity, BindingResult result, Model model, RedirectAttributes flash) {
+        if (result.hasErrors()) {
+            model.addAttribute("title", "Literary Genre Form");
+            model.addAttribute("action", "update");
+
+            return "literary-genres/literary-genres-form";
+        }
+
+        service.update(entity);
+
+        flash.addFlashAttribute("success", "Literary Genre [" + entity.getId() + "] " + entity.getName()
                 + " has been updated successfully!");
 
         return "redirect:/literary-genres";
     }
 
-    @GetMapping("literary-genres/delete/{id}")
-    public String delete(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
-        if (id > 0) {
-            Optional<LiteraryGenre> genreOpt = service.find(id);
+    @Override
+    @GetMapping("/delete/{id}")
+    public String processDelete(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+        final Optional<LiteraryGenre> genreOpt = service.find(id);
 
-            if (genreOpt.isPresent()) {
-                LiteraryGenre genre = genreOpt.get();
+        if (!genreOpt.isPresent()) {
+            flash.addFlashAttribute("error", "Literary genre " + id + " not found!");
 
-                service.delete(genre.getId());
-
-                flash.addFlashAttribute("success", "Literary genre [" + id + "] " + genre.getName() + " has been deleted.");
-            }
+            return "redirect:/literary-genres";
         }
+
+        final LiteraryGenre genre = genreOpt.get();
+
+        service.delete(genre.getId());
+
+        flash.addFlashAttribute("success", "Literary genre [" + genre.getId() + "] " + genre.getName() + " has been deleted.");
 
         return "redirect:/literary-genres";
     }

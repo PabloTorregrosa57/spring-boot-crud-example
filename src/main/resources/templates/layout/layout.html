@@ -43,22 +43,22 @@ SOFTWARE.
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Inicio</a>
+                            <a class="nav-link" th:href="@{/index}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"  th:href="@{/authors}">Autores</a>
+                            <a class="nav-link"  th:href="@{/authors}">Authors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/books}">Libros</a>
+                            <a class="nav-link" th:href="@{/books}">Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/literary-genres}">Géneros</a>
+                            <a class="nav-link" th:href="@{/literary-genres}">Genres</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/publishing-houses}">Editoriales</a>
+                            <a class="nav-link" th:href="@{/publishing-houses}">Publishing Houses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/countries}">Paises</a>
+                            <a class="nav-link" th:href="@{/countries}">Countries</a>
                         </li>
                     </ul>
                 </div>
@@ -82,7 +82,7 @@ SOFTWARE.
             </p>
 
             <p>
-                &copy; <a href="https://www.facebook.com/codepenguin.org/">CodePenguin.org</a> 2019, Todos los derechos reservados. Términos de uso y privacidad.<br />
+                &copy; <a href="https://www.facebook.com/codepenguin.org/">CodePenguin.org</a> 2019, <a th:href="@{LICENSE.html}" th:text="'MIT License'"></a>.<br />
             </p>
 
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

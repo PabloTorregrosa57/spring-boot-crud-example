@@ -27,34 +27,28 @@ import java.util.List;
 import org.codepenguin.spring.boot.crud.example.model.entities.Country;
 import org.codepenguin.spring.boot.crud.example.model.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author juandiegoespinosasantos@gmail.com
  * @version 02/24/2019
  */
-@Controller
+@RestController
 @RequestMapping("/countries")
 public class CountryController {
-
-    @Value("${crud.example.controllers.countries.title}")
-    private String title;
 
     @Autowired
     private CountryService service;
 
     @GetMapping
-    public String list(Model model) {
+    @ResponseBody
+    public ResponseEntity<List<Country>> list() {
         final List<Country> countries = service.findAll();
-
-        model.addAttribute("title", this.title);
-        model.addAttribute("countries", countries);
-
-        return "countries/countries";
+        return ResponseEntity.ok(countries);
     }
 }
